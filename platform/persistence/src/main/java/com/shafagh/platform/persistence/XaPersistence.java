@@ -10,6 +10,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 public final class XaPersistence {
+ private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger(XaPersistence.class);
  private XaPersistence() {}
  public static AtomikosDataSourceBean dataSource(Environment env, String module) {
   String prefix="bank.datasource."+module+".";
@@ -17,12 +18,19 @@ public final class XaPersistence {
   source.setUniqueResourceName("shafagh-"+module);
   String password=env.getRequiredProperty(prefix+"password");
   if(password.isBlank()) throw new IllegalStateException("Missing database password for module: "+module);
+  String username=env.getRequiredProperty(prefix+"username");
+  String passwordVariable=switch(module) {
+   case "transaction" -> "TXN_DB_PASSWORD";
+   default -> module.toUpperCase(java.util.Locale.ROOT)+"_DB_PASSWORD";
+  };
+  LOG.info("Preparing XA connection: module={}, username={}, passwordVariable={}, overridePresent={}",
+   module,username,passwordVariable,env.containsProperty(passwordVariable));
   try {
    Class<?> type=ClassUtils.forName(env.getProperty(prefix+"xa-class", "oracle.jdbc.xa.client.OracleXADataSource"),XaPersistence.class.getClassLoader());
    XADataSource xa=(XADataSource)BeanUtils.instantiateClass(type);
    var wrapper=new BeanWrapperImpl(xa);
    wrapper.setPropertyValue("URL",env.getRequiredProperty(prefix+"url"));
-   wrapper.setPropertyValue("user",env.getRequiredProperty(prefix+"username"));
+   wrapper.setPropertyValue("user",username);
    wrapper.setPropertyValue("password",password);
    xa.setLoginTimeout(env.getProperty(prefix+"login-timeout-seconds",Integer.class,10));
    if(xa instanceof oracle.jdbc.xa.client.OracleXADataSource oracle) {
