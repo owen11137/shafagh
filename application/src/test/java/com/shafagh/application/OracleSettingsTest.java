@@ -20,6 +20,15 @@ class OracleSettingsTest {
     }
 
     @Test
+    void absentPasswordDefaultsToTheConfiguredUsername() {
+        new ApplicationContextRunner()
+            .withPropertyValues("spring.config.location=classpath:bank/cif.yml", "CIF_DB_USERNAME=DEMO_FIXTURE_USER")
+            .withInitializer(new ConfigDataApplicationContextInitializer())
+            .run(context -> assertThat(context.getEnvironment().getRequiredProperty("bank.datasource.cif.password"))
+                .isEqualTo("DEMO_FIXTURE_USER"));
+    }
+
+    @Test
     void productionSettingsUseSidAndModuleOwnedSchemas() {
         new ApplicationContextRunner()
             .withInitializer(new ConfigDataApplicationContextInitializer())

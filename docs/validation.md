@@ -3,7 +3,7 @@
 Current workspace: Java 21, Maven 3.9.11, Spring Boot 4.1.1, Atomikos 6.0.1 Jakarta.
 
 - Maven reactor build and executable Spring Boot JAR: passed.
-- Seven executed tests: architecture isolation, XA commit/idempotent retry, late database failure rollback, mismatched retry rejection, HTTP customer/account/credit workflow, and module-owned Oracle SID/schema configuration, and dotenv password loading without shell export. All passed.
+- Eight executed tests: architecture isolation, XA commit/idempotent retry, late database failure rollback, mismatched retry rejection, HTTP customer/account/credit workflow, and module-owned Oracle SID/schema configuration, and dotenv password loading without shell export, and username fallback when no password is configured. All passed.
 - Three Oracle tests: skipped (RUN_ORACLE_IT not set; Oracle network and credentials unavailable).
 - Crash recovery and Oracle XA behavior: not validated; required before production use.
 
