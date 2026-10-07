@@ -118,3 +118,17 @@ FROM DUAL;
 ```
 
 ORA-01017 به‌تنهایی مشخص نمی‌کند رمز تغییر کرده است؛ override تنظیمات، حروف بزرگ/کوچک یا اتصال به container متفاوت نیز باید بررسی شوند. برنامه رمز را trim یا lowercase نمی‌کند.
+
+## خطای cannot find symbol برای TransactionApi در IntelliJ
+
+کلاس عمومی در `modules/SHFQ_TRX/trx-api/src/main/java/com/shafagh/trx/api/TransactionApi.java` قرار دارد و `dpst-impl` به artifact برابر `com.shafagh:trx-api` وابسته است. پس از تغییر نام ماژول، Maven model قدیمی IDE ممکن است همچنان به ماژول حذف‌شده اشاره کند. ابتدا سورس جدید را دریافت کنید و از ریشه پروژه در PowerShell اجرا کنید:
+
+```powershell
+cd C:\projects\intellij\shafagh
+git pull
+.\mvnw.cmd -pl :dpst-impl -am clean install -DskipTests
+```
+
+این دستور سپرده، API تراکنش و تمام پیش‌نیازهایشان را از سورس می‌سازد و در مخزن محلی Maven نصب می‌کند؛ اتصال Oracle لازم ندارد. در IntelliJ فایل `pom.xml` ریشه را به‌عنوان Maven project انتخاب و از پنجره Maven گزینه Reload All Maven Projects را اجرا کنید. ماژول `trx-api` باید در Maven tree و وابستگی‌های `dpst-impl` دیده شود. سپس Build → Rebuild Project را اجرا کنید. ساختن دستی یک پکیج یا کپی‌کردن TransactionApi داخل ماژول سپرده مرز ماژول را خراب می‌کند و لازم نیست.
+
+اگر Maven هم خطا داد، خروجی همان دستور علت build را نشان می‌دهد. موفقیت Maven و شکست build داخلی IntelliJ نشان‌دهنده تفاوت مدل وابستگی IDE با مدل Maven است؛ از آن به‌تنهایی نمی‌توان مشکل cache را قطعی دانست.
