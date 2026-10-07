@@ -11,6 +11,8 @@ The late-failure test pre-inserts a conflicting operation in the transaction dat
 
 Oracle tests insert DEMO records and intentionally leave them for inspection. They do not delete existing business data. Use dedicated test schemas. Schema DDL is manual and application startup uses validate, never create/drop, for Oracle.
 
-Oracle connection configuration corrected to hostname CENTRALDB-19C.MODERNISC.COM, port 1521, SID centraldb. Transaction schema is SHFQ_TRX. Credentials remain in ignored local .env only. Business-module Maven aggregators make module grouping explicit.
+Oracle connection configuration corrected to hostname 172.31.65.19, port 1521, SID centraldb. Transaction schema is SHFQ_TRX. The demo defaults each password to its configured username; optional overrides are in ignored local .env. Business-module Maven aggregators make module grouping explicit.
 
 Oracle driver credential selection was exercised offline with fictitious credentials and a capturing XA subclass. Authentication against the user database is still unverified. Timeout properties do not clear authentication in ojdbc11 23.26.3.0.0.
+
+The Maven business module is now explicitly named SHFQ_TRX, with trx-api/trx-impl artifacts, com.shafagh.trx packages and a trx persistence unit. Oracle defaults to 172.31.65.19:1521 with SID centraldb.

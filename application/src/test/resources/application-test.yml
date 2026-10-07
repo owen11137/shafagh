@@ -14,7 +14,7 @@ bank:
       schema: PUBLIC
       username: sa
       password: test
-    transaction:
+    trx:
       xa-class: org.h2.jdbcx.JdbcDataSource
       url: jdbc:h2:mem:txn;DB_CLOSE_DELAY=-1
       schema: PUBLIC

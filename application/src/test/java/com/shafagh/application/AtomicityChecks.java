@@ -1,8 +1,8 @@
 package com.shafagh.application;
 import com.shafagh.cif.internal.service.CustomerService;
 import com.shafagh.dpst.internal.service.DepositService;
-import com.shafagh.transaction.internal.entity.BankTransaction;
-import com.shafagh.transaction.internal.repository.BankTransactionRepository;
+import com.shafagh.trx.internal.entity.BankTransaction;
+import com.shafagh.trx.internal.repository.BankTransactionRepository;
 import com.shafagh.dpst.internal.repository.DepositPostingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

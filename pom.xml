@@ -21,7 +21,7 @@
     <module>modules/cif</module>
     <module>modules/dpst</module>
     <module>modules/loan</module>
-    <module>modules/transaction</module>
+    <module>modules/SHFQ_TRX</module>
     <module>application</module>
   </modules>
   <dependencyManagement>
@@ -73,12 +73,12 @@
       </dependency>
       <dependency>
         <groupId>com.shafagh</groupId>
-        <artifactId>transaction-api</artifactId>
+        <artifactId>trx-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.shafagh</groupId>
-        <artifactId>transaction-impl</artifactId>
+        <artifactId>trx-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

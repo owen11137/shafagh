@@ -1,7 +1,7 @@
 package com.shafagh.dpst.internal.service;
 import com.shafagh.dpst.api.*;
 import com.shafagh.cif.api.CustomerApi;
-import com.shafagh.transaction.api.*;
+import com.shafagh.trx.api.*;
 import com.shafagh.dpst.internal.entity.*;
 import com.shafagh.dpst.internal.repository.*;
 import org.springframework.stereotype.Service;

@@ -34,13 +34,13 @@ class OracleSettingsTest {
             .withInitializer(new ConfigDataApplicationContextInitializer())
             .run(context -> {
                 var env = context.getEnvironment();
-                for (String module : new String[]{"base", "cif", "dpst", "loan", "transaction"}) {
+                for (String module : new String[]{"base", "cif", "dpst", "loan", "trx"}) {
                     String prefix = "bank.datasource." + module + ".";
                     assertThat(env.getRequiredProperty(prefix + "url"))
-                        .isEqualTo("jdbc:oracle:thin:@CENTRALDB-19C.MODERNISC.COM:1521:centraldb");
+                        .isEqualTo("jdbc:oracle:thin:@172.31.65.19:1521:centraldb");
                     assertThat(env.getRequiredProperty(prefix + "xa-class"))
                         .isEqualTo("oracle.jdbc.xa.client.OracleXADataSource");
-                    String schema = module.equals("transaction") ? "SHFQ_TRX" : "SHFQ_" + module.toUpperCase(java.util.Locale.ROOT);
+                    String schema = module.equals("trx") ? "SHFQ_TRX" : "SHFQ_" + module.toUpperCase(java.util.Locale.ROOT);
                     assertThat(env.getRequiredProperty(prefix + "schema")).isEqualTo(schema);
                     assertThat(env.getRequiredProperty(prefix + "username")).isEqualTo(schema);
                 }

@@ -1,0 +1,11 @@
+bank:
+  datasource:
+    trx:
+      xa-class: oracle.jdbc.xa.client.OracleXADataSource
+      url: ${TRX_DB_URL:jdbc:oracle:thin:@${bank.oracle.host}:${bank.oracle.port}:${bank.oracle.sid}}
+      username: ${TRX_DB_USERNAME:SHFQ_TRX}
+      password: ${TRX_DB_PASSWORD:${bank.datasource.trx.username}}
+      schema: ${TRX_DB_SCHEMA:SHFQ_TRX}
+      min-pool-size: 1
+      max-pool-size: 5
+      borrow-timeout-seconds: 15

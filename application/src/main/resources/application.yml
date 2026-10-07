@@ -9,12 +9,12 @@ spring:
       - classpath:bank/cif.yml
       - classpath:bank/dpst.yml
       - classpath:bank/loan.yml
-      - classpath:bank/transaction.yml
+      - classpath:bank/trx.yml
   jpa:
     open-in-view: false
 bank:
   oracle:
-    host: ${ORACLE_HOST:CENTRALDB-19C.MODERNISC.COM}
+    host: ${ORACLE_HOST:172.31.65.19}
     port: ${ORACLE_PORT:1521}
     sid: ${ORACLE_SID:centraldb}
   ddl-mode: validate

@@ -20,7 +20,7 @@ public final class XaPersistence {
   if(password.isBlank()) throw new IllegalStateException("Missing database password for module: "+module);
   String username=env.getRequiredProperty(prefix+"username");
   String passwordVariable=switch(module) {
-   case "transaction" -> "TXN_DB_PASSWORD";
+   case "trx" -> "TRX_DB_PASSWORD";
    default -> module.toUpperCase(java.util.Locale.ROOT)+"_DB_PASSWORD";
   };
   LOG.info("Preparing XA connection: module={}, username={}, passwordVariable={}, overridePresent={}",
