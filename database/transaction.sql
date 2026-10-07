@@ -1,4 +1,4 @@
--- Run while connected as SHFQ_TXN, on a dedicated test schema.
+-- Run while connected as SHFQ_TRX, on a dedicated test schema.
 CREATE TABLE DEMO_BANK_TRANSACTION (
  OPERATION_ID VARCHAR2(36 CHAR) PRIMARY KEY,
  ACCOUNT_ID VARCHAR2(36 CHAR) NOT NULL,

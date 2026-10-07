@@ -16,11 +16,11 @@ Java 21، Spring Boot 4.1.1، Atomikos 6.0.1 (Jakarta)، Oracle JDBC از BOM ب
 
 ## آماده‌سازی Oracle شما
 
-1. نام سرویس اعلام‌شده: `CENTRALDB-19C.MODERNISC.COM`، میزبان `172.31.65.19`، پورت `1521`.
-2. وجود کاربران `SHFQ_CIF`، `SHFQ_DPST` و `SHFQ_TXN` را بررسی کنید. هر کاربر فقط روی اسکیمای خودش کار می‌کند.
+1. میزبان: `CENTRALDB-19C.MODERNISC.COM`، پورت: `1521`، SID: `centraldb`. اتصال با قالب SID است: `jdbc:oracle:thin:@CENTRALDB-19C.MODERNISC.COM:1521:centraldb`.
+2. وجود کاربران `SHFQ_CIF`، `SHFQ_DPST` و `SHFQ_TRX` را بررسی کنید. هر کاربر فقط روی اسکیمای خودش کار می‌کند.
 3. اسکریپت‌های `database/cif.sql`، `database/dpst.sql` و `database/transaction.sql` را با کاربر همان اسکیما روی محیط آزمایشی اجرا کنید. این اسکریپت‌ها برای اجرا یک‌باره‌اند و جدول موجود را حذف نمی‌کنند. از قبل باید مجوز ساخت جدول و quota مناسب داشته باشید.
 4. DBA فایل `database/xa-dba-review.sql` و نیازهای XA recovery نسخه Oracle را بررسی کند. این مجوزهای فنی، دسترسی عمومی به جدول‌های ماژول‌های دیگر نیستند.
-5. `.env.example` را به `.env` کپی و رمزها را فقط در فایل محلی وارد کنید. در این نمونه هیچ رمز واقعی ذخیره نشده است.
+5. در checkout آماده‌شده، فایل محلی و Git-ignored به نام `.env` با مشخصات اعلام‌شده شما آماده است. پس از clone جدید، `.env.example` را به `.env` کپی و رمزهای خود را در فایل محلی وارد کنید. رمزها در مخزن ذخیره نشده‌اند.
 
 ```sh
 set -a
@@ -67,3 +67,22 @@ Recovery پس از قطع برنامه هنوز تأیید نشده است. پی
 `modules/*/*-api` قراردادهای جاوا و DTOها؛ `*-impl` شامل controller، request DTO، service، entity، repository و config. فقط API ماژول‌های دیگر dependency می‌شود. `application` برنامه را assemble می‌کند. `platform/persistence` زیرساخت مشترک است و داده کسب‌وکار ندارد.
 
 در tasks ابری از checkout موجود استفاده کنید؛ هر task از قبل ایزوله است و worktree جدید لازم نیست. برای Oracle خصوصی در cloud، VPN و مجوز TCP مقصد لازم است؛ allowlist وب به‌تنهایی اتصال JDBC را فراهم نمی‌کند.
+
+## ماژول Maven با پکیج جاوا چه تفاوتی دارد؟
+
+ریشه `com.shafagh` فقط namespace است. هر ماژول زیر پوشه مستقل `modules/` یک `pom.xml` از نوع aggregator دارد و شامل دو پروژه مستقل Maven، با artifact و JAR جدا، است:
+
+```text
+modules/
+├── base/pom.xml        → base-api + base-impl
+├── cif/pom.xml         → cif-api + cif-impl
+├── dpst/pom.xml        → dpst-api + dpst-impl
+├── loan/pom.xml        → loan-api + loan-impl
+└── transaction/pom.xml → transaction-api + transaction-impl
+```
+
+در IntelliJ، فایل `pom.xml` ریشه را به‌عنوان Maven Project باز و Reload کنید. Maven همه پروژه‌ها را به‌عنوان module مستقل شناسایی می‌کند. فقط `application` یک برنامه اجرایی است؛ deploy مشترک، ویژگی Modular Monolith است. جداکردن سرویس‌های اجرایی، معماری متفاوتی خواهد بود.
+
+تنظیمات اتصال هر ماژول در `*-impl/src/main/resources/bank/` خودش است. تنظیمات Hibernate/JTA مشترک در `platform/persistence` قرار دارد. هر ماژول فعال EntityManagerFactory، اتصال XA و schema اختصاصی دارد؛ repositories به EntityManager همان ماژول متصل هستند. `base` و `loan` تنظیمات آماده دارند ولی چون هنوز Entity یا کاربرد اجرایی ندارند، اتصال فعال مصرف نمی‌کنند.
+
+Hibernate در Oracle با dialect اختصاصی، schema صریح، DDL برابر validate، batch size برابر 20، SQL logging خاموش و Entity scan محدود به ماژول تنظیم شده است. برنامه فقط جدول‌ها را بررسی می‌کند؛ SQLهای پوشه database را باید یک‌بار با کاربران همان اسکیما اجرا کنید. تغییر SID/hostname یا رمز از طریق متغیر محیط ممکن است.

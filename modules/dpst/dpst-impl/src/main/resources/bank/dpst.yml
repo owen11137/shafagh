@@ -1,0 +1,11 @@
+bank:
+  datasource:
+    dpst:
+      xa-class: oracle.jdbc.xa.client.OracleXADataSource
+      url: ${DPST_DB_URL:jdbc:oracle:thin:@${bank.oracle.host}:${bank.oracle.port}:${bank.oracle.sid}}
+      username: ${DPST_DB_USERNAME:SHFQ_DPST}
+      password: ${DPST_DB_PASSWORD:}
+      schema: ${DPST_DB_SCHEMA:SHFQ_DPST}
+      min-pool-size: 1
+      max-pool-size: 5
+      borrow-timeout-seconds: 15

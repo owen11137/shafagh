@@ -1,0 +1,11 @@
+bank:
+  datasource:
+    transaction:
+      xa-class: oracle.jdbc.xa.client.OracleXADataSource
+      url: ${TXN_DB_URL:jdbc:oracle:thin:@${bank.oracle.host}:${bank.oracle.port}:${bank.oracle.sid}}
+      username: ${TXN_DB_USERNAME:SHFQ_TRX}
+      password: ${TXN_DB_PASSWORD:}
+      schema: ${TXN_DB_SCHEMA:SHFQ_TRX}
+      min-pool-size: 1
+      max-pool-size: 5
+      borrow-timeout-seconds: 15

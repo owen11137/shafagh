@@ -1,0 +1,11 @@
+bank:
+  datasource:
+    loan:
+      xa-class: oracle.jdbc.xa.client.OracleXADataSource
+      url: ${LOAN_DB_URL:jdbc:oracle:thin:@${bank.oracle.host}:${bank.oracle.port}:${bank.oracle.sid}}
+      username: ${LOAN_DB_USERNAME:SHFQ_LOAN}
+      password: ${LOAN_DB_PASSWORD:}
+      schema: ${LOAN_DB_SCHEMA:SHFQ_LOAN}
+      min-pool-size: 1
+      max-pool-size: 5
+      borrow-timeout-seconds: 15
