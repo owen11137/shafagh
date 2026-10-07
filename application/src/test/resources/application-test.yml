@@ -1,0 +1,19 @@
+bank:
+  ddl-mode: create-drop
+  dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    cif:
+      xa-class: org.h2.jdbcx.JdbcDataSource
+      url: jdbc:h2:mem:cif;DB_CLOSE_DELAY=-1
+      username: sa
+      password: test
+    dpst:
+      xa-class: org.h2.jdbcx.JdbcDataSource
+      url: jdbc:h2:mem:dpst;DB_CLOSE_DELAY=-1
+      username: sa
+      password: test
+    transaction:
+      xa-class: org.h2.jdbcx.JdbcDataSource
+      url: jdbc:h2:mem:txn;DB_CLOSE_DELAY=-1
+      username: sa
+      password: test

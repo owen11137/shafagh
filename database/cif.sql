@@ -1,0 +1,5 @@
+-- Run while connected as SHFQ_CIF, on a dedicated test schema.
+CREATE TABLE DEMO_CUSTOMER (
+ ID VARCHAR2(36 CHAR) PRIMARY KEY,
+ NAME VARCHAR2(100 CHAR) NOT NULL
+);

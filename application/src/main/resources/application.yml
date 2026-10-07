@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: shafagh
+  jpa:
+    open-in-view: false
+bank:
+  ddl-mode: validate
+  datasource:
+    cif:
+      url: ${CIF_DB_URL}
+      username: ${CIF_DB_USERNAME:SHFQ_CIF}
+      password: ${CIF_DB_PASSWORD}
+    dpst:
+      url: ${DPST_DB_URL}
+      username: ${DPST_DB_USERNAME:SHFQ_DPST}
+      password: ${DPST_DB_PASSWORD}
+    transaction:
+      url: ${TXN_DB_URL}
+      username: ${TXN_DB_USERNAME:SHFQ_TXN}
+      password: ${TXN_DB_PASSWORD}
