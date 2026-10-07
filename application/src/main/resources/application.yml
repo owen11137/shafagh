@@ -3,6 +3,8 @@ spring:
     name: shafagh
   config:
     import:
+      - optional:file:./.env[.properties]
+      - optional:file:../.env[.properties]
       - classpath:bank/base.yml
       - classpath:bank/cif.yml
       - classpath:bank/dpst.yml

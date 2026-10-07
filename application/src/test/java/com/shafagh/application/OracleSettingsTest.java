@@ -6,6 +6,19 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OracleSettingsTest {
+    @org.junit.jupiter.api.io.TempDir java.nio.file.Path temporaryDirectory;
+
+    @Test
+    void dotenvPropertiesSupplyPasswordWithoutShellExport() throws Exception {
+        var file = temporaryDirectory.resolve("test.env");
+        java.nio.file.Files.writeString(file, "CIF_DB_PASSWORD=fixture-only\n");
+        new ApplicationContextRunner()
+            .withPropertyValues("spring.config.import=optional:file:" + file.toUri().getPath() + "[.properties],classpath:bank/cif.yml")
+            .withInitializer(new ConfigDataApplicationContextInitializer())
+            .run(context -> assertThat(context.getEnvironment().getRequiredProperty("bank.datasource.cif.password"))
+                .isEqualTo("fixture-only"));
+    }
+
     @Test
     void productionSettingsUseSidAndModuleOwnedSchemas() {
         new ApplicationContextRunner()

@@ -86,3 +86,9 @@ modules/
 تنظیمات اتصال هر ماژول در `*-impl/src/main/resources/bank/` خودش است. تنظیمات Hibernate/JTA مشترک در `platform/persistence` قرار دارد. هر ماژول فعال EntityManagerFactory، اتصال XA و schema اختصاصی دارد؛ repositories به EntityManager همان ماژول متصل هستند. `base` و `loan` تنظیمات آماده دارند ولی چون هنوز Entity یا کاربرد اجرایی ندارند، اتصال فعال مصرف نمی‌کنند.
 
 Hibernate در Oracle با dialect اختصاصی، schema صریح، DDL برابر validate، batch size برابر 20، SQL logging خاموش و Entity scan محدود به ماژول تنظیم شده است. برنامه فقط جدول‌ها را بررسی می‌کند؛ SQLهای پوشه database را باید یک‌بار با کاربران همان اسکیما اجرا کنید. تغییر SID/hostname یا رمز از طریق متغیر محیط ممکن است.
+
+## رفع خطای Missing database password در IDE
+
+Spring فایل `.env` را اکنون به‌عنوان Java properties از پوشه کاری یا یک سطح بالاتر بارگذاری می‌کند. هنگام اجرا در IDE، Working directory را ریشه پروژه یا پوشه `application` قرار دهید. پس از clone، فایل `.env` موجود در ماشین ابری به سیستم شما منتقل نمی‌شود؛ `.env.example` را به `.env` کپی و رمزهای اعلام‌شده برای هر کاربر را در آن وارد کنید. فایل شامل خطوط `KEY=value` است؛ از `export` یا کوتیشن shell در مقدارها استفاده نکنید. متغیرهای محیطی از فایل اولویت بالاتری دارند.
+
+اگر متغیر رمز در Run Configuration وجود دارد ولی خالی است، آن را حذف یا مقداردهی کنید. فایل `.env` وارد Git نمی‌شود. این اصلاح فقط بارگذاری تنظیمات را پوشش می‌دهد؛ دسترسی Oracle و وجود جدول‌ها باید جدا بررسی شود.
